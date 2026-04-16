@@ -7,6 +7,13 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
+  // Check if database is already seeded
+  const existingUser = await prisma.user.findFirst();
+  if (existingUser) {
+    console.log('✅ Database is already seeded. Skipping.');
+    return;
+  }
+
   // Clean existing data
   await prisma.bookingAnswer.deleteMany();
   await prisma.booking.deleteMany();
